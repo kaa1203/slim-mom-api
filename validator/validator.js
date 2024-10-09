@@ -46,6 +46,50 @@ const entrySchema = Joi.object({
 	})
 });
 
+const calorieIntakeSchema = Joi.object({
+	height: Joi
+		.number()
+		.required()
+		.min(100)
+		.max(250)
+		.messages({
+			"number.min": "height must be atleast 100cm", 
+			"number.max": "height must not exceed 250cm"
+		}),
+	currentWeight: Joi
+		.number()
+		.required()
+		.min(50)
+		.max(600)
+		.messages({
+			"number.min": "current weight must be atleast 50 kg",
+			"number.max": "current weight must not exceed {#limit} kg"
+		}),
+	age: Joi
+		.number()
+		.required()
+		.min(18)
+		.max(100)
+		.messages({
+			"number.min": "age must be atleast 18 years or above",
+			"number.max": "age must not exceed {#limit} years old"
+		}),
+	desiredWeight: Joi
+		.number()
+		.required()
+		.min(50)
+		.max(600)
+		.messages({
+			"number.min": "desired weight must be atleast 50 kg",
+			"number.max": "desired weight must not exceed {#limit} kg"
+		}),
+	bloodType: Joi.number().required().valid(1, 2, 3, 4),
+}).custom((value, helpers) => {
+	if (value.currentWeight <= value.desiredWeight) return helpers.error('any.invalid');
+	return value;
+}).messages({'any.invalid': "currentWeight must not be less than or equal desiredWeight"})
+
 export const signupValidator = validator(signupSchema);
 export const signinValidator = validator(signinSchema);
 export const entryValidator = validator(entrySchema);
+export const calorieIntakeValidator = validator(calorieIntakeSchema);

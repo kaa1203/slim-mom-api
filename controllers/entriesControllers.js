@@ -27,11 +27,22 @@ const addEntry = async (req, res) => {
 	}
 }
 
-const fetchEntryById = async (req, res) => {
-	const entryId = req.params.entryId;
+const fetchEntryByDate = async (req, res) => {
+	const entryDateString = req.params.entryDate;
+	const entryDate = new Date(entryDateString);
+
+	const startOfDay = new Date(entryDate);
+	startOfDay.setHours(0, 0, 0, 0);
+	const lastOfDay = new Date(entryDate);
+	lastOfDay.setHours(23, 59, 59, 999);
 
 	try {
-		const existingEntry = await Entries.findById(entryId);
+		const existingEntry = await Entries.find({ 
+			createdAt: {
+				$gte: startOfDay,
+				$lte: lastOfDay,
+			} 
+		});
 
 		if (!existingEntry) return res.status(400).json({ message: 'Entry does not exist!'});
 
@@ -59,5 +70,5 @@ export {
 	fetchEntries,
 	addEntry,
 	deleteEntry,
-	fetchEntryById
+	fetchEntryByDate
 }

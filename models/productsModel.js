@@ -5,7 +5,7 @@ const productsSChema = new Schema({
 	weight: { type: Number },
 	title: { type: String },
 	calories: { type: Number },
-	groupBloodNotAllowed: [{ type: Schema.Types.Mixed}]
+	groupBloodNotAllowed: [{ type: Schema.Types.Mixed }]
 }, 
 { 
 	versionKey: false, 
