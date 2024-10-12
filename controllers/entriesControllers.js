@@ -4,7 +4,9 @@ import { entryValidator } from "../validator/validator.js";
 const fetchEntries = async (req, res) => {
 	const id = req.user._id;
 	try {
-		res.status(200).json(await Entries.find({ owner: id }));
+		res.status(200).json(await Entries
+			.find({ owner: id })
+			.select('-__v -updatedAt'));
 	} catch (e) {
 		res.status(500).json({ message: e.message });
 	}
@@ -16,12 +18,9 @@ const addEntry = async (req, res) => {
 	if (error) return res.status(400).json({ message: error.message });
 
 	try {
-		const { food } = value;
 		const id = req.user._id;
 
-		await Entries.create({ food, owner: id });
-		
-		res.status(200).json({ message: 'Entry Added!' });
+		res.status(200).json(await Entries.create({ food: value, owner: id }));
 	} catch (e) {
 		res.status(500).json({ message: e.message});
 	}
@@ -38,11 +37,12 @@ const fetchEntryByDate = async (req, res) => {
 
 	try {
 		const existingEntry = await Entries.find({ 
+			owner: req.user.id, 
 			createdAt: {
 				$gte: startOfDay,
 				$lte: lastOfDay,
 			} 
-		});
+		}).select('-__v -updatedAt');
 
 		if (!existingEntry) return res.status(400).json({ message: 'Entry does not exist!'});
 

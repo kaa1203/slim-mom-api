@@ -25,8 +25,15 @@ const calorieSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'user',
 	},
+	foodsToAvoid: {
+		type: Array
+	},
+	calorieIntake: { type: Number}
 }, 
-{ timestamps: true }
+{ 	
+	timestamps: true,
+	collection: 'calorieIntake'
+}
 );
 
 export const CalorieIntake = mongoose.model('calorieIntake', calorieSchema);

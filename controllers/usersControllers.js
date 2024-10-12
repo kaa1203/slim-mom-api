@@ -16,17 +16,22 @@ const signup = async (req, res) => {
 		
 		const userExist = await User.findOne({ email });
 		
-		if (userExist) return res.status(400).json({ message: 'User already exists!'});
+		if (userExist) return res.status(409).json({ message: 'User already exists!'});
 
 		const hashedPassword = await bcrypt.hash(password, 10);
 		
-		await User.create({
+		const newUser = await User.create({
 			name,
 			email,
 			password: hashedPassword
 		});
 
-		res.status(201).json({ message: 'Registered successfully!' });
+		res.status(201).json({
+			_id: newUser._id,
+			email: newUser.email,
+			name: newUser.name,
+		});
+
 	} catch (e) {
 		res.status(500).json({ message: e.message });
 	}
@@ -52,7 +57,14 @@ const signin = async (req, res) => {
 
 		if (!passwordMatched) return res.status(401).json({ message: 'Wrong email or password!' });
 
-		res.status(200).json({ message: `Welcome ${existingUser.name}!` });
+		res.status(200).json({
+			user: {
+				_id: existingUser._id,
+				name: existingUser.name,
+				email: existingUser.email,
+				token: existingUser.token,
+			}
+		});
 
 	} catch (e) {
 		res.status(500).json({ message: e.message });

@@ -4,6 +4,6 @@ import authToken from "../../middleware/auth.js";
 
 const router = express.Router();
 
-router.get('/', authToken, fetchProducts);
+router.get('/search', authToken, fetchProducts);
 
 export { router };

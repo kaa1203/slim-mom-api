@@ -35,15 +35,12 @@ const signinSchema = Joi.object({
 });
 
 const entrySchema = Joi.object({
-	food: Joi.object({
-		_id: Joi.string().required(),
-		categories: Joi.string().required(),
-		weight: Joi.number().required(),
-		title: Joi.string().required(),
-		calories: Joi.number().required(),
-		groupBloodNotAllowed: Joi.array().items().required(),
-		__v: Joi.number(),
-	})
+	_id: Joi.string().required(),
+	categories: Joi.string().required(),
+	weight: Joi.number().required(),
+	title: Joi.string().required(),
+	calories: Joi.number().required(),
+	groupBloodNotAllowed: Joi.array().items().required(),
 });
 
 const calorieIntakeSchema = Joi.object({
