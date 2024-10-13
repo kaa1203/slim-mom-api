@@ -62,7 +62,7 @@ const signin = async (req, res) => {
 				_id: existingUser._id,
 				name: existingUser.name,
 				email: existingUser.email,
-				token: existingUser.token,
+				token,
 			}
 		});
 

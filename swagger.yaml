@@ -181,8 +181,6 @@ paths:
     get:
       summary: Search for entries
       description: Search entries by date
-      produces: 
-        - application/json
       security:
         - Bearer: []
       tags:
@@ -190,7 +188,7 @@ paths:
       parameters:
         - name: entryDate
           in:  path
-          description: The date you want to search (format: YYYY-MM-DD)
+          #description: The date you want to search (format: YYYY-MM-DD)
           required: true
           schema:
             type: string
@@ -202,7 +200,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#components/schemas/FetchEntries'
+                $ref: '#/components/schemas/FetchEntries'
         400:
           description: Bad request
           content: {}
@@ -246,7 +244,64 @@ paths:
         500:
           description: Server Error!
           content: {}
-
+  /calorieIntake/public:
+    post:
+      tags: 
+        - Calorie Intake endpoints
+      summary: Shows the calorie count and foods to avoid
+      description: Data is not being save in the database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalorieIntakeRequest'
+          
+      responses:
+        200:
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalorieIntakeResponsePublic'
+        400:
+          description: Bad request
+          content: {}
+        500: 
+          description: Internal server error!
+          content: {}
+  /calorieIntake/private:
+    post:
+      tags: 
+        - Calorie Intake endpoints
+      security:
+        - Bearer: []
+      summary: Shows the calorie count and foods to avoid
+      description: Data is not being save in the database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalorieIntakeRequest'
+          
+      responses:
+        200:
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalorieIntakeResponsePrivate'
+        400:
+          description: Bad request
+          content: {}
+        401:
+          description: Unauthorized Access!
+          content: {}
+        500: 
+          description: Internal server error!
+          content: {}
+  
 components:
   securitySchemes:
     Bearer:
@@ -496,24 +551,119 @@ components:
         message:
           type: string
           example: "Entry Deleted"
-    CalorieIntake:
+    CalorieIntakeRequest:
       type: object
+      required:
+        - height
+        - currentWeight
+        - age
+        - desiredWeight
+        - bloodType
       properties:
         height:
           type: number
+          description: User's height
+          example: 165
         currentWeight:
           type: number
+          description: User's current weight
+          example: 100
         age: 
           type: number
+          description: User's current age
+          example: 25
         desiredWeight:
           type: number
+          description: User's desired weight
+          example: 60
         bloodType:
           type: number
+          description: User's blood type
+          example: 2
+    CalorieIntakeResponsePrivate:
+      type: object
+      required:
+        - height
+        - currentWeight
+        - age
+        - desiredWeight
+        - bloodType
+        - owner
+        - foodsToAvoid
+        - calorieIntake
+      properties:
+        height:
+          type: number
+          description: User's height
+          example: 165
+        currentWeight:
+          type: number
+          description: User's current weight
+          example: 100
+        age: 
+          type: number
+          description: User's current age
+          example: 25
+        desiredWeight:
+          type: number
+          description: User's desired weight
+          example: 60
+        bloodType:
+          type: number
+          description: User's blood type
+          example: 2
         owner:
           type: string
+          description: User's Id
+          example: 670a457fc360b982199aa704
         foodsToAvoid:
           type: array
           items:
             type: string
+            description: list of food to avoid
+            example: ["dairy","flour","meat"]
         calorieIntake:
           type: number
+          description: Calorie intake
+          example: 1345.25
+    CalorieIntakeResponsePublic:
+      type: object
+      required:
+        - height
+        - currentWeight
+        - age
+        - desiredWeight
+        - bloodType
+        - foodsToAvoid
+        - calorieIntake
+      properties:
+        height:
+          type: number
+          description: User's height
+          example: 165
+        currentWeight:
+          type: number
+          description: User's current weight
+          example: 100
+        age: 
+          type: number
+          description: User's current age
+          example: 25
+        desiredWeight:
+          type: number
+          description: User's desired weight
+          example: 60
+        bloodType:
+          type: number
+          description: User's blood type
+          example: 2
+        foodsToAvoid:
+          type: array
+          items:
+            type: string
+            description: list of food to avoid
+            example: ["dairy","flour","meat"]
+        calorieIntake:
+          type: number
+          description: Calorie intake
+          example: 1345.25

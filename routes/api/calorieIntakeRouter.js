@@ -7,4 +7,4 @@ const router = express.Router();
 router.post('/public', publicRoute);
 router.post('/private', authToken, privateRoute);
 
-export { router };
+export { router };	
