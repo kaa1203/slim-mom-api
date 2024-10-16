@@ -7,7 +7,8 @@ const entriesSchema = new Schema({
 		weight: { type: Number },
 		title: { type: String },
 		calories: { type: Number },
-		groupBloodNotAllowed: { type: Array }
+		groupBloodNotAllowed: { type: Array },
+		grams: { type: Number }
 	},
 	owner: {
 		type: Schema.Types.ObjectId,

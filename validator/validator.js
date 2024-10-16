@@ -41,6 +41,7 @@ const entrySchema = Joi.object({
 	title: Joi.string().required(),
 	calories: Joi.number().required(),
 	groupBloodNotAllowed: Joi.array().items().required(),
+	grams: Joi.number().required(),
 });
 
 const calorieIntakeSchema = Joi.object({

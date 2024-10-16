@@ -277,7 +277,7 @@ paths:
       security:
         - Bearer: []
       summary: Shows the calorie count and foods to avoid
-      description: Data is not being save in the database
+      description: Data is saved in the database
       requestBody:
         required: true
         content:
@@ -498,6 +498,10 @@ components:
               - type: boolean
               - type: null
           example: [null, true, false, false, false]
+        grams:
+          type: number
+          description: grams of the food eaten
+          example: 100
     AddEntriesResponse:
       type: object
       required:
@@ -529,14 +533,18 @@ components:
             groupBloodNotAllowed:
               type: array
               items:
-                oneOf:
-                  - type: boolean
-                  - type: null
+                # oneOf:
+                #   - type: boolean
+                #   - type: null
               example: [null, true, false, false, false]
             _id:
               type: string
               description: ID of the entry
               example: 670a9b0f3df3eb80564a1551
+            grams:
+              type: number
+              description: grams of the food eaten
+              example: 100
         owner:
           type: string
           description: ID of user who owns the entry
