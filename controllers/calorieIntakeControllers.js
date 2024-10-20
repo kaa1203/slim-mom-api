@@ -71,4 +71,14 @@ const privateRoute = async(req, res) => {
 	}
 }
 
-export { publicRoute, privateRoute };
+const fetchAllRecord = async (req, res) => {
+	try {
+		const id = req.user._id;
+		return res.status(200).json(await CalorieIntake.find({owner: id}).select('-__v -updatedAt'));
+
+	} catch (e) {
+		return res.status(400).json({ message: e.message });
+	}
+}
+
+export { publicRoute, privateRoute, fetchAllRecord };

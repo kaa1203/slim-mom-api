@@ -301,7 +301,31 @@ paths:
         500: 
           description: Internal server error!
           content: {}
-  
+    get:
+      tags:
+        - Calorie Intake endpoints
+      security:
+        - Bearer: []
+      summary: Fetch all calorie intake
+      description: Fetches all data from database
+      
+      responses:
+        200:
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalorieIntakeData'
+        400:
+          description: Bad Request
+          content: {}
+        401:
+          description: Unauthorized Access!
+          content: {}
+        500: 
+          description: Internal server error!
+          content: {}
+
 components:
   securitySchemes:
     Bearer:
@@ -675,3 +699,49 @@ components:
           type: number
           description: Calorie intake
           example: 1345.25
+    CalorieIntakeData:
+      type: object
+      properties:
+        _id: 
+          type: string
+          description: Calorie Intake ID
+          example: 6709ec51303394ac803d5208
+        height:
+          type: number
+          description: User's Height
+          example: 155
+        currentWeight:
+          type: number
+          description: User's Current Weight
+          example: 100
+        age:
+          type: number
+          description: User's age
+          example: 30
+        desiredWeight:
+          type: number
+          description: User's Desired Weight
+          example: 50
+        bloodType:
+          type: number
+          description: User's Blood type
+          example: 2
+        owner: 
+          type: number
+          description: User's ID
+          example: 67028e1ab14495ebc18aabed
+        foodsToAvoid:
+          type: array
+          description: List of foods the user should avoid
+          items:
+            type: string
+          example: ["dairy", "flour", "meat"]
+        calorieIntake:
+          type: number
+          description: User's Calorie Intake
+          example: 1271.5
+        createdAt:
+          type: string
+          format: date-time
+          description: Record creation date
+          example: "2024-10-15T17:36:53.364Z"
